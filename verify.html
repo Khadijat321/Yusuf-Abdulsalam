@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Verification | Yusuf Abdulsalam</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .verify-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 2rem 2rem;
+            background: var(--bg-primary);
+        }
+
+        .verify-container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .verify-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .verify-icon.pending {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--warning);
+            color: var(--warning);
+        }
+
+        .verify-icon.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 2px solid var(--success);
+            color: var(--success);
+        }
+
+        .verify-icon.declined {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--danger);
+            color: var(--danger);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .verify-container h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .verify-container h1.pending { color: var(--warning); }
+        .verify-container h1.success {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .verify-container h1.declined { color: var(--danger); }
+
+        .verify-container > p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .transaction-details {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .transaction-details h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row span:first-child { color: var(--text-muted); }
+        .detail-row span:last-child { color: var(--text-primary); font-weight: 600; }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .status-badge.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-badge.declined {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .verify-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .verify-actions a, .verify-actions button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .next-steps {
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .next-steps ul {
+            list-style: none;
+        }
+
+        .next-steps li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+        }
+
+        .next-steps li i { color: var(--success); font-size: 0.9rem; }
+
+        .contact-info-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: var(--radius-md);
+            text-align: left;
+        }
+
+        .contact-info-box h4 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary-light);
+        }
+
+        .contact-info-box p {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .contact-info-box a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .contact-info-box a:hover { text-decoration: underline; }
+
+        .timer {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+        }
+
+        .timer i { color: var(--warning); margin-right: 0.25rem; }
+
+        .receipt-preview {
+            max-width: 300px;
+            max-height: 400px;
+            border-radius: var(--radius-md);
+            margin: 1rem auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            border: 2px dashed rgba(99, 102, 241, 0.3);
+        }
+
+        .admin-section h4 {
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .admin-section p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .pin-input {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .pin-input input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+        }
+
+        .pin-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="verify-page">
+        <div class="verify-container" id="verifyContainer">
+            <!-- Content will be populated by JavaScript based on status -->
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const ref = urlParams.get('ref') || '';
+        const action = urlParams.get('action') || ''; // 'approve' or 'decline'
+        const adminPin = urlParams.get('pin') || '';
+
+        // Secret admin PIN - CHANGE THIS TO YOUR OWN 4-DIGIT PIN
+        const SECRET_PIN = '1234'; // ⚠️ CHANGE THIS!
+
+        // Get payment data from localStorage
+        const payments = JSON.parse(localStorage.getItem('yaPayments') || '[]');
+        const payment = payments.find(p => p.reference === ref) || payments[payments.length - 1];
+
+        const container = document.getElementById('verifyContainer');
+
+        // If admin is trying to approve/decline
+        if (action && (action === 'approve' || action === 'decline')) {
+            showAdminVerification();
+        } else {
+            // Show status to client
+            showClientStatus();
+        }
+
+        function showClientStatus() {
+            if (!payment) {
+                showNotFound();
+                return;
+            }
+
+            const status = payment.status || 'pending';
+
+            if (status === 'pending') {
+                showPending();
+            } else if (status === 'success') {
+                showSuccess();
+            } else if (status === 'declined') {
+                showDeclined();
+            }
+        }
+
+        function showPending() {
+            container.innerHTML = `
+                <div class="verify-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+
+                <div class="status-badge pending">
+                    <i class="fas fa-clock"></i> Pending Verification
+                </div>
+
+                <h1 class="pending">Payment Under Review</h1>
+                <p>Thank you for your payment! We have received your receipt and are verifying your transaction. This usually takes a few minutes to a few hours.</p>
+
+                <div class="transaction-details">
+                    <h3><i class="fas fa-receipt"></i> Transaction Details</h3>
+                    <div class="detail-row">
+                        <span>Reference:</span>
+                        <span>${payment.reference || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Plan:</span>
+                        <span>${payment.plan || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Amount:</span>
+                        <span style="color:var(--primary-light);font-weight:800;">${payment.amount || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Date:</span>
+                        <span>${payment.date ? new Date(payment.date).toLocaleString() : 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Sender:</span>
+                        <span>${payment.senderName || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Status:</span>
+                        <span style="color:var(--warning);"><i class="fas fa-clock"></i> Pending</span>
+                    </div>
+                </div>
+
+                <div class="timer">
+                    <i class="fas fa-hourglass-half"></i> 
+                    This page will automatically update when your payment is verified.
+                </div>
+
+                <div class="contact-info-box">
+                    <h4><i class="fas fa-headset"></i> Need Help?</h4>
+                    <p>If your payment is not verified within 24 hours, please contact us:</p>
+                    <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/2348079614529">Chat on WhatsApp</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:abdulsalamy564@gmail.com">abdulsalamy564@gmail.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+2348079614529">08079614529</a></p>
+                </div>
+
+                <div class="verify-actions">
+                    <a href="index.html" class="btn-primary">
+                        <i class="fas fa-home"></i> Back to Homepage
+                    </a>
+                    <a href="https://wa.me/2348079614529" target="_blank" class="btn-outline">
+                        <i class="fab fa-whatsapp"></i> Contact Support
+                    </a>
+                </div>
+            `;
+
+            // Auto-refresh every 30 seconds to check for status updates
+            setInterval(() => {
+                location.reload();
+            }, 30000);
+        }
+
+        function showSuccess() {
+            container.innerHTML = `
+                <div class="verify-icon success">
+                    <i class="fas fa-check"></i>
+                </div>
+
+                <div class="status-badge success">
+                    <i class="fas fa-check-circle"></i> Payment Verified
+                </div>
+
+                <h1 class="success">Payment Successful!</h1>
+                <p>Great news! Your payment has been verified and confirmed. Your project has been initiated and I'll contact you within 24 hours.</p>
+
+                <div class="transaction-details">
+                    <h3><i class="fas fa-receipt"></i> Transaction Details</h3>
+                    <div class="detail-row">
+                        <span>Reference:</span>
+                        <span>${payment.reference || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Plan:</span>
+                        <span>${payment.plan || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Amount Paid:</span>
+                        <span style="color:var(--success);font-weight:800;">${payment.amount || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Date:</span>
+                        <span>${payment.date ? new Date(payment.date).toLocaleString() : 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Verified On:</span>
+                        <span>${payment.verifiedDate ? new Date(payment.verifiedDate).toLocaleString() : 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Status:</span>
+                        <span style="color:var(--success);"><i class="fas fa-check-circle"></i> Confirmed</span>
+                    </div>
+                </div>
+
+                <div class="next-steps">
+                    <h3><i class="fas fa-tasks"></i> What Happens Next?</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> You'll receive a confirmation email shortly</li>
+                        <li><i class="fas fa-check-circle"></i> I'll contact you within 24 hours via WhatsApp/Email</li>
+                        <li><i class="fas fa-check-circle"></i> We'll schedule a discovery call for your project</li>
+                        <li><i class="fas fa-check-circle"></i> Project delivery begins based on your selected plan</li>
+                    </ul>
+                </div>
+
+                <div class="contact-info-box">
+                    <h4><i class="fas fa-headset"></i> Questions?</h4>
+                    <p>Feel free to reach out anytime:</p>
+                    <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/2348079614529">Chat on WhatsApp</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:abdulsalamy564@gmail.com">abdulsalamy564@gmail.com</a></p>
+                </div>
+
+                <div class="verify-actions">
+                    <a href="index.html" class="btn-primary">
+                        <i class="fas fa-home"></i> Back to Homepage
+                    </a>
+                    <a href="https://wa.me/2348079614529" target="_blank" class="btn-outline">
+                        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                    </a>
+                </div>
+            `;
+        }
+
+        function showDeclined() {
+            container.innerHTML = `
+                <div class="verify-icon declined">
+                    <i class="fas fa-times"></i>
+                </div>
+
+                <div class="status-badge declined">
+                    <i class="fas fa-times-circle"></i> Payment Declined
+                </div>
+
+                <h1 class="declined">Payment Not Verified</h1>
+                <p>We were unable to verify your payment. This could be due to:<br><br>
+                • The receipt did not match our records<br>
+                • The transaction was not found in our account<br>
+                • The amount paid was incorrect<br><br>
+                Please don't worry - contact us and we'll help resolve this.</p>
+
+                <div class="transaction-details">
+                    <h3><i class="fas fa-receipt"></i> Transaction Details</h3>
+                    <div class="detail-row">
+                        <span>Reference:</span>
+                        <span>${payment.reference || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Plan:</span>
+                        <span>${payment.plan || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Amount:</span>
+                        <span>${payment.amount || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Status:</span>
+                        <span style="color:var(--danger);"><i class="fas fa-times-circle"></i> Declined</span>
+                    </div>
+                </div>
+
+                <div class="contact-info-box" style="border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.05);">
+                    <h4 style="color:var(--danger);"><i class="fas fa-exclamation-triangle"></i> Need to Resolve This?</h4>
+                    <p>Contact us immediately and we'll help you:</p>
+                    <p><i class="fab fa-whatsapp"></i> <a href="https://wa.me/2348079614529">Chat on WhatsApp</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+2348079614529">08079614529</a></p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:abdulsalamy564@gmail.com">abdulsalamy564@gmail.com</a></p>
+                </div>
+
+                <div class="verify-actions">
+                    <a href="payment.html" class="btn-primary">
+                        <i class="fas fa-redo"></i> Try Again
+                    </a>
+                    <a href="https://wa.me/2348079614529" target="_blank" class="btn-outline">
+                        <i class="fab fa-whatsapp"></i> Contact Support
+                    </a>
+                </div>
+            `;
+        }
+
+        function showNotFound() {
+            container.innerHTML = `
+                <div class="verify-icon declined">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <h1 class="declined">Payment Not Found</h1>
+                <p>We couldn't find a payment with this reference number. Please check the link or contact us for assistance.</p>
+
+                <div class="verify-actions">
+                    <a href="index.html" class="btn-primary">
+                        <i class="fas fa-home"></i> Back to Homepage
+                    </a>
+                    <a href="https://wa.me/2348079614529" target="_blank" class="btn-outline">
+                        <i class="fab fa-whatsapp"></i> Contact Support
+                    </a>
+                </div>
+            `;
+        }
+
+        function showAdminVerification() {
+            container.innerHTML = `
+                <div class="verify-icon pending">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+
+                <h1 style="color:var(--primary-light);">Admin Verification</h1>
+                <p>Enter your PIN to ${action === 'approve' ? 'approve' : 'decline'} this payment.</p>
+
+                <div class="transaction-details">
+                    <h3><i class="fas fa-receipt"></i> Payment Details</h3>
+                    <div class="detail-row">
+                        <span>Reference:</span>
+                        <span>${payment?.reference || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Client:</span>
+                        <span>${payment?.firstName || ''} ${payment?.lastName || ''}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Amount:</span>
+                        <span style="color:var(--primary-light);font-weight:800;">${payment?.amount || 'N/A'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Sender:</span>
+                        <span>${payment?.senderName || 'N/A'}</span>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <h4><i class="fas fa-lock"></i> Enter Admin PIN</h4>
+                    <div class="pin-input">
+                        <input type="password" maxlength="1" id="pin1" oninput="movePin(1)" onkeydown="movePinBack(1)">
+                        <input type="password" maxlength="1" id="pin2" oninput="movePin(2)" onkeydown="movePinBack(2)">
+                        <input type="password" maxlength="1" id="pin3" oninput="movePin(3)" onkeydown="movePinBack(3)">
+                        <input type="password" maxlength="1" id="pin4" oninput="movePin(4)" onkeydown="movePinBack(4)">
+                    </div>
+                    <p style="color:var(--text-muted);font-size:0.8rem;">Enter the 4-digit PIN to proceed.</p>
+                </div>
+
+                <div class="verify-actions">
+                    <button class="btn-${action === 'approve' ? 'success' : 'danger'}" onclick="verifyPin()">
+                        <i class="fas fa-${action === 'approve' ? 'check' : 'times'}"></i> 
+                        ${action === 'approve' ? 'Approve Payment' : 'Decline Payment'}
+                    </button>
+                    <a href="index.html" class="btn-outline">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            `;
+
+            // Auto-focus first PIN input
+            setTimeout(() => document.getElementById('pin1').focus(), 100);
+        }
+
+        // PIN input navigation
+        window.movePin = function(current) {
+            const input = document.getElementById('pin' + current);
+            if (input.value && current < 4) {
+                document.getElementById('pin' + (current + 1)).focus();
+            }
+        };
+
+        window.movePinBack = function(current) {
+            if (event.key === 'Backspace' && !event.target.value && current > 1) {
+                document.getElementById('pin' + (current - 1)).focus();
+            }
+        };
+
+        window.verifyPin = function() {
+            const pin = 
+                document.getElementById('pin1').value +
+                document.getElementById('pin2').value +
+                document.getElementById('pin3').value +
+                document.getElementById('pin4').value;
+
+            if (pin === SECRET_PIN) {
+                // Update payment status
+                if (payment) {
+                    payment.status = action === 'approve' ? 'success' : 'declined';
+                    payment.verifiedDate = new Date().toISOString();
+                    payment.verifiedBy = 'admin';
+
+                    // Save back to localStorage
+                    const payments = JSON.parse(localStorage.getItem('yaPayments') || '[]');
+                    const index = payments.findIndex(p => p.reference === payment.reference);
+                    if (index !== -1) {
+                        payments[index] = payment;
+                        localStorage.setItem('yaPayments', JSON.stringify(payments));
+                    }
+
+                    // Show success message
+                    container.innerHTML = `
+                        <div class="verify-icon success">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h1 class="success">Payment ${action === 'approve' ? 'Approved' : 'Declined'}!</h1>
+                        <p>The payment has been ${action === 'approve' ? 'approved' : 'declined'} successfully. The client will see the updated status.</p>
+                        <div class="verify-actions">
+                            <a href="verify.html?ref=${ref}" class="btn-primary">
+                                <i class="fas fa-eye"></i> View Status
+                            </a>
+                            <a href="index.html" class="btn-outline">
+                                <i class="fas fa-home"></i> Back to Homepage
+                            </a>
+                        </div>
+                    `;
+                }
+            } else {
+                alert('Incorrect PIN! Access denied.');
+                // Clear inputs
+                for (let i = 1; i <= 4; i++) {
+                    document.getElementById('pin' + i).value = '';
+                }
+                document.getElementById('pin1').focus();
+            }
+        };
+    </script>
+</body>
+</html>
