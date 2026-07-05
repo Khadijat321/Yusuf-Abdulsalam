@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Yusuf Abdulsalam - Full Stack Web Developer & Designer. Expert in frontend and backend development, creating stunning responsive websites.">
+    <meta name="keywords" content="Yusuf Abdulsalam, Web Developer, Full Stack Developer, Frontend Developer, Backend Developer, Nigeria Web Developer, Portfolio">
+    <meta name="author" content="Yusuf Abdulsalam">
+    <meta property="og:title" content="Yusuf Abdulsalam | Full Stack Web Developer">
+    <meta property="og:description" content="Professional Full Stack Web Developer specializing in modern web technologies and stunning designs.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Yusuf Abdulsalam | Full Stack Web Developer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Yusuf Abdulsalam",
+  "jobTitle": "Full Stack Web Developer",
+  "url": "https://yourusername.github.io/yusufabdulsalam-portfolio",
+  "email": "abdulsalamy564@gmail.com",
+  "telephone": "+2348079614529",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "Nigeria"
+  },
+  "sameAs": [
+    "https://github.com/yusufabdulsalam",
+    "https://linkedin.com/in/yusufabdulsalam"
+  ],
+  "knowsAbout": ["Web Development", "Frontend Development", "Backend Development", "JavaScript", "React", "Node.js"]
+}
+</script>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">YA</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loadingBar"></div>
+            </div>
+            <div class="loading-text">Loading Experience...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <span class="logo-text">YA</span>
+                <span class="logo-dot"></span>
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active" data-text="Home">Home</a>
+                <a href="#about" class="nav-link" data-text="About">About</a>
+                <a href="#skills" class="nav-link" data-text="Skills">Skills</a>
+                <a href="#projects" class="nav-link" data-text="Projects">Projects</a>
+                <a href="#contact" class="nav-link" data-text="Contact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#contact" class="btn btn-primary nav-cta">Hire Me</a>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-link">Home</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#skills" class="mobile-link">Skills</a>
+            <a href="#projects" class="mobile-link">Projects</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+            <canvas id="particleCanvas"></canvas>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge" data-aos="fade-down">
+                <span class="badge-icon"><i class="fas fa-code"></i></span>
+                <span class="badge-text">Available for Projects</span>
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line" data-aos="fade-up" data-aos-delay="100">
+                    <span class="gradient-text">YUSUF</span>
+                </span>
+                <span class="title-line" data-aos="fade-up" data-aos-delay="200">
+                    <span class="outline-text">ABDULSALAM</span>
+                </span>
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="300">
+                Full Stack Web Developer & Designer crafting
+                <span class="typewriter" id="typewriter"></span>
+                <span class="cursor-blink">|</span>
+            </p>
+            <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50">0</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="30">0</span>
+                    <span class="stat-label">Happy Clients</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="5">0</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+            </div>
+            <div class="hero-cta" data-aos="fade-up" data-aos-delay="500">
+                <a href="#projects" class="btn btn-primary btn-lg">
+                    <span>View My Work</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="#contact" class="btn btn-outline btn-lg">
+                    <span>Get In Touch</span>
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <div class="hero-social" data-aos="fade-up" data-aos-delay="600">
+                <a href="https://github.com/yusufabdulsalam" target="_blank" class="social-link" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/yusufabdulsalam" target="_blank" class="social-link" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://twitter.com/yusufabdulsalam" target="_blank" class="social-link" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://wa.me/2348079614529" target="_blank" class="social-link" aria-label="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">About Me</span>
+                <h2 class="section-title">Who I Am</h2>
+                <p class="section-subtitle">Passionate about building the future of the web</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-image" data-aos="fade-right">
+                    <div class="image-wrapper">
+                        <div class="image-bg"></div>
+                        <div class="image-placeholder">
+                            <i class="fas fa-user"></i>
+                            <span>Add Your Photo</span>
+                        </div>
+                        <div class="image-border"></div>
+                    </div>
+                    <div class="experience-badge">
+                        <span class="exp-number">5+</span>
+                        <span class="exp-text">Years of<br>Experience</span>
+                    </div>
+                </div>
+                <div class="about-content" data-aos="fade-left">
+                    <h3 class="about-title">Full Stack Developer with a Creative Edge</h3>
+                    <p class="about-text">
+                        I'm Yusuf Abdulsalam, a dedicated Full Stack Web Developer with expertise in both frontend and backend technologies. 
+                        I transform ideas into elegant, functional, and user-centric digital experiences.
+                    </p>
+                    <p class="about-text">
+                        My approach combines technical excellence with creative design thinking. Every project I undertake 
+                        is built with performance, accessibility, and scalability in mind. I don't just write code — I craft digital solutions 
+                        that make a real impact.
+                    </p>
+                    <div class="about-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Nigeria</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>abdulsalamy564@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <span>08079614529</span>
+                        </div>
+                    </div>
+                    <a href="#contact" class="btn btn-primary">
+                        <span>Let's Work Together</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">My Expertise</span>
+                <h2 class="section-title">Skills & Technologies</h2>
+                <p class="section-subtitle">Tools and technologies I use to build amazing products</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="0">
+                    <div class="skill-icon">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <h3>HTML5 & CSS3</h3>
+                    <p>Semantic markup, modern CSS, Flexbox, Grid, animations</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar" data-width="95%"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="skill-icon">
+                        <i class="fab fa-js"></i>
+                    </div>
+                    <h3>JavaScript</h3>
+                    <p>ES6+, DOM manipulation, async programming, APIs</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar" data-width="90%"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="skill-icon">
+                        <i class="fab fa-react"></i>
+                    </div>
+                    <h3>React & Next.js</h3>
+                    <p>Components, hooks, state management, SSR/SSG</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar" data-width="85%"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="skill-icon">
+                        <i class="fab fa-node-js"></i>
+                    </div>
+                    <h3>Node.js & Express</h3>
+                    <p>REST APIs, authentication, middleware, real-time apps</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar" data-width="88%"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="skill-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Databases</h3>
+                    <p>MongoDB, PostgreSQL, MySQL, Firebase, Redis</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar" data-width="82%"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="skill-icon">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3>Python & Django</h3>
+                    <p>Web applications, data processing, automation</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar" data-width="80%"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="skill-icon">
+                        <i class="fab fa-git-alt"></i>
+                    </div>
+                    <h3>Git & DevOps</h3>
+                    <p>Version control, CI/CD, Docker, cloud deployment</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar" data-width="85%"></div>
+                    </div>
+                </div>
+                <div class="skill-card" data-aos="fade-up" data-aos-delay="700">
+                    <div class="skill-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>UI/UX Design</h3>
+                    <p>Figma, Adobe XD, responsive design, prototyping</p>
+                    <div class="skill-progress">
+                        <div class="progress-bar" data-width="90%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Portfolio</span>
+                <h2 class="section-title">Featured Projects</h2>
+                <p class="section-subtitle">A showcase of my best work and creative solutions</p>
+            </div>
+            
+            <!-- Project Filter -->
+            <div class="project-filter" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="web">Web Apps</button>
+                <button class="filter-btn" data-filter="ecommerce">E-Commerce</button>
+                <button class="filter-btn" data-filter="mobile">Mobile</button>
+                <button class="filter-btn" data-filter="dashboard">Dashboards</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Project Card Template - Add your projects here -->
+                <div class="project-card" data-category="web" data-aos="fade-up">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-globe"></i>
+                            <span>Project Screenshot</span>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="View Live">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="#" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-tag">Web Application</span>
+                        <h3>Project Title Here</h3>
+                        <p>A brief description of the project, technologies used, and the problem it solves.</p>
+                        <div class="project-tech">
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="ecommerce" data-aos="fade-up" data-aos-delay="100">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Project Screenshot</span>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="View Live">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="#" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-tag">E-Commerce</span>
+                        <h3>Project Title Here</h3>
+                        <p>A brief description of the project, technologies used, and the problem it solves.</p>
+                        <div class="project-tech">
+                            <span>Next.js</span>
+                            <span>Stripe</span>
+                            <span>Tailwind</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="dashboard" data-aos="fade-up" data-aos-delay="200">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Project Screenshot</span>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="View Live">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="#" class="project-link" title="View Code">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-tag">Dashboard</span>
+                        <h3>Project Title Here</h3>
+                        <p>A brief description of the project, technologies used, and the problem it solves.</p>
+                        <div class="project-tech">
+                            <span>Vue.js</span>
+                            <span>Firebase</span>
+                            <span>D3.js</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add More Projects Button -->
+                <div class="add-project-card" id="addProjectBtn" data-aos="fade-up">
+                    <div class="add-project-content">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Add New Project</h3>
+                        <p>Click to add your project details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Project Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Add New Project</h2>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input type="text" id="projectTitle" placeholder="e.g., E-Commerce Platform" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectCategory">Category</label>
+                    <select id="projectCategory" required>
+                        <option value="web">Web Application</option>
+                        <option value="ecommerce">E-Commerce</option>
+                        <option value="mobile">Mobile App</option>
+                        <option value="dashboard">Dashboard</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea id="projectDescription" rows="3" placeholder="Brief description of the project..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectTech">Technologies (comma separated)</label>
+                    <input type="text" id="projectTech" placeholder="e.g., React, Node.js, MongoDB" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectLive">Live URL</label>
+                    <input type="url" id="projectLive" placeholder="https://your-project.com">
+                </div>
+                <div class="form-group">
+                    <label for="projectGithub">GitHub URL</label>
+                    <input type="url" id="projectGithub" placeholder="https://github.com/username/repo">
+                </div>
+                <div class="form-group">
+                <img src="WIN_20260614_05_13_52_Pro.jpg" alt="Yusuf Abdulsalam - Full Stack Web Developer" style="width:100%;height:100%;object-fit:cover;border-radius:30px;">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <span>Add Project</span>
+                    <i class="fas fa-plus"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Get In Touch</span>
+                <h2 class="section-title">Let's Work Together</h2>
+                <p class="section-subtitle">Have a project in mind? Let's create something amazing</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Phone Numbers</h3>
+                            <a href="tel:+2348079614529">08079614529</a>
+                            <a href="tel:+2349130868445">09130868445</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email Addresses</h3>
+                            <a href="mailto:abdulsalamy564@gmail.com">abdulsalamy564@gmail.com</a>
+                            <a href="mailto:kingofpeace431@gmail.com">kingofpeace431@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>WhatsApp</h3>
+                            <a href="https://wa.me/2348079614529" target="_blank">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Location</h3>
+                            <span>Nigeria</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper" data-aos="fade-left">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Your Email</label>
+                                <input type="email" id="email" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" placeholder="Project Inquiry" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <a href="#home" class="footer-logo">
+                            <span class="logo-text">YA</span>
+                            <span class="logo-dot"></span>
+                        </a>
+                        <p>Full Stack Web Developer creating stunning, functional, and user-centric digital experiences.</p>
+                        <div class="footer-social">
+                            <a href="https://github.com/yusufabdulsalam" target="_blank" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/yusufabdulsalam" target="_blank" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://twitter.com/yusufabdulsalam" target="_blank" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://wa.me/2348079614529" target="_blank" aria-label="WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#skills">Skills</a></li>
+                            <li><a href="#projects">Projects</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="#">Web Development</a></li>
+                            <li><a href="#">UI/UX Design</a></li>
+                            <li><a href="#">Backend Development</a></li>
+                            <li><a href="#">API Development</a></li>
+                            <li><a href="#">Database Design</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-contact">
+                        <h4>Contact Info</h4>
+                        <ul>
+                            <li><i class="fas fa-phone"></i> 08079614529</li>
+                            <li><i class="fas fa-phone"></i> 09130868445</li>
+                            <li><i class="fas fa-envelope"></i> abdulsalamy564@gmail.com</li>
+                            <li><i class="fas fa-envelope"></i> kingofpeace431@gmail.com</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2024 Yusuf Abdulsalam. All rights reserved.</p>
+                <p>Built with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Message sent successfully!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
