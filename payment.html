@@ -908,6 +908,7 @@
             const email = document.getElementById('bankEmail').value;
             const phone = document.getElementById('bankPhone').value;
             const senderName = document.getElementById('bankSenderName').value;
+            const projectDetails = document.getElementById('bankProjectDetails').value;
             const file = document.getElementById('receiptUpload').files[0];
 
             if (!file) {
@@ -917,67 +918,103 @@
 
             const btn = document.getElementById('bankSubmitBtn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
-            // Read file as base64 for email
+            // Generate unique reference
+            const reference = 'YA_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+
+            // Read file as base64
             const reader = new FileReader();
             reader.onload = function(e) {
                 const receiptData = e.target.result;
 
-                // Prepare email content
-                const subject = `Payment Proof - ${plan.name} - ${firstName} ${lastName}`;
-                const body = `
-NEW PAYMENT SUBMISSION
-======================
-
-Plan: ${plan.name}
-Amount: ${plan.price}
-
-CLIENT DETAILS:
-- Name: ${firstName} ${lastName}
-- Email: ${email}
-- Phone: ${phone}
-- Sender's Account Name: ${senderName}
-
-RECEIPT ATTACHED
-
-Please verify the payment and confirm to the client.
-                `;
-
-                // Since we can't send email directly from frontend,
-                // we'll open the user's email client with pre-filled content
-                // and also redirect to WhatsApp as backup
-
-                const mailtoLink = `mailto:abdulsalamy564@gmail.com,kingofpeace431@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-                // Store payment info in localStorage for reference
+                // Store payment info in localStorage
                 const paymentInfo = {
+                    reference: reference,
                     plan: plan.name,
                     amount: plan.price,
+                    priceNumber: plan.priceNumber,
                     firstName,
                     lastName,
                     email,
                     phone,
                     senderName,
+                    projectDetails,
+                    receiptData,
                     date: new Date().toISOString(),
-                    status: 'pending_verification'
+                    status: 'pending'
                 };
 
                 let payments = JSON.parse(localStorage.getItem('yaPayments') || '[]');
                 payments.push(paymentInfo);
                 localStorage.setItem('yaPayments', JSON.stringify(payments));
 
-                // Show success and redirect
-                showMessage('Payment proof submitted! Opening email client...', 'success');
+                // Generate admin verification links
+                const baseUrl = window.location.origin + window.location.pathname.replace('payment.html', '');
+                const approveLink = `${baseUrl}verify.html?ref=${reference}&action=approve`;
+                const declineLink = `${baseUrl}verify.html?ref=${reference}&action=decline`;
+                const statusLink = `${baseUrl}verify.html?ref=${reference}`;
 
+                // Prepare WhatsApp message for admin notification
+                const adminMessage = `🔔 NEW PAYMENT SUBMISSION
+
+Plan: ${plan.name}
+Amount: ${plan.price}
+Reference: ${reference}
+
+Client: ${firstName} ${lastName}
+Email: ${email}
+Phone: ${phone}
+Sender: ${senderName}
+
+✅ APPROVE: ${approveLink}
+❌ DECLINE: ${declineLink}
+📊 STATUS: ${statusLink}
+
+Check your bank account and click the appropriate link.`;
+
+                // Prepare client email
+                const clientSubject = `Payment Received - ${plan.name} [${reference}]`;
+                const clientBody = `Dear ${firstName},
+
+Thank you for your payment!
+
+Your payment is currently under review. Here are your details:
+
+Reference: ${reference}
+Plan: ${plan.name}
+Amount: ${plan.price}
+
+You can check your payment status here:
+${statusLink}
+
+We'll notify you once your payment is verified.
+
+Best regards,
+Yusuf Abdulsalam
+Full Stack Web Developer
+Phone: 08079614529
+Email: abdulsalamy564@gmail.com`;
+
+                // Open email client for client notification
+                const clientMailto = `mailto:${email}?subject=${encodeURIComponent(clientSubject)}&body=${encodeURIComponent(clientBody)}`;
+
+                // Show success message
+                showMessage('Payment submitted! Redirecting to status page...', 'success');
+
+                // Open WhatsApp for admin notification
                 setTimeout(() => {
-                    // Try to open email client
-                    window.open(mailtoLink, '_blank');
+                    window.open(`https://wa.me/2348079614529?text=${encodeURIComponent(adminMessage)}`, '_blank');
 
-                    // Also redirect to success page
+                    // Open email client for client
                     setTimeout(() => {
-                        window.location.href = `payment-success.html?ref=BANK_${Date.now()}&plan=${planId}&method=bank`;
-                    }, 2000);
+                        window.open(clientMailto, '_blank');
+
+                        // Redirect to verification page
+                        setTimeout(() => {
+                            window.location.href = statusLink;
+                        }, 2000);
+                    }, 1000);
                 }, 1500);
             };
 
