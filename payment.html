@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure Payment - Yusuf Abdulsalam Web Development Services Nigeria">
+    <title>Secure Payment | Yusuf Abdulsalam</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .payment-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 2rem 2rem;
+            background: var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-page::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        .payment-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .payment-summary {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 100px;
+        }
+
+        .payment-summary h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .plan-details {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price .currency { font-size: 1.5rem; }
+        .plan-price .period {
+            font-size: 1rem;
+            color: var(--text-muted);
+            -webkit-text-fill-color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .plan-features-summary {
+            list-style: none;
+        }
+
+        .plan-features-summary li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .plan-features-summary li i { color: var(--success); font-size: 0.8rem; }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: var(--radius-md);
+            margin-top: 1.5rem;
+        }
+
+        .security-badge i { color: var(--success); font-size: 1.5rem; }
+        .security-badge span { color: var(--text-secondary); font-size: 0.85rem; }
+
+        .payment-form-wrapper {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .payment-form-wrapper h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-form-wrapper > p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* Payment Method Tabs */
+        .payment-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: var(--bg-primary);
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+        }
+
+        .payment-tab {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .payment-tab i { font-size: 1.5rem; }
+        .payment-tab:hover { color: var(--text-primary); }
+        .payment-tab.active {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .payment-content { display: none; }
+        .payment-content.active { display: block; }
+
+        /* Bank Transfer Section */
+        .bank-details {
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bank-details h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bank-detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .bank-detail-row:last-child { border-bottom: none; }
+        .bank-detail-row span:first-child { color: var(--text-muted); font-size: 0.85rem; }
+        .bank-detail-row span:last-child { color: var(--text-primary); font-weight: 600; font-size: 0.95rem; }
+
+        .copy-btn {
+            padding: 0.4rem 0.75rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: var(--radius-sm);
+            color: var(--primary-light);
+            font-family: var(--font-primary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed rgba(99, 102, 241, 0.3);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            background: var(--bg-primary);
+            position: relative;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .file-upload.dragover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .file-upload i { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .file-upload h4 { color: var(--text-primary); margin-bottom: 0.5rem; }
+        .file-upload p { color: var(--text-muted); font-size: 0.85rem; }
+
+        .file-preview {
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: var(--radius-sm);
+        }
+
+        .file-preview.show { display: flex; }
+        .file-preview i { color: var(--success); font-size: 1.5rem; }
+        .file-preview .file-info { flex: 1; text-align: left; }
+        .file-preview .file-name { color: var(--text-primary); font-weight: 600; font-size: 0.9rem; }
+        .file-preview .file-size { color: var(--text-muted); font-size: 0.8rem; }
+        .file-preview .remove-file {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.25rem;
+        }
+
+        /* Form Styles */
+        .payment-form .form-group { margin-bottom: 1.5rem; }
+
+        .payment-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .payment-form input,
+        .payment-form select,
+        .payment-form textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+
+        .payment-form input:focus,
+        .payment-form select:focus,
+        .payment-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .payment-form input::placeholder,
+        .payment-form textarea::placeholder { color: var(--text-muted); }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .pay-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .pay-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .payment-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .payment-footer i { color: var(--success); margin-right: 0.25rem; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: color var(--transition-fast);
+        }
+
+        .back-link:hover { color: var(--primary-light); }
+
+        .payment-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .payment-logo a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            text-decoration: none;
+        }
+
+        .payment-logo .logo-text {
+            font-size: 2rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .payment-logo .logo-dot {
+            width: 8px; height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .payment-message {
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .payment-message.show { display: flex; }
+        .payment-message.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--success);
+        }
+        .payment-message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+
+        .whatsapp-fallback {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: var(--radius-md);
+            margin-top: 1.5rem;
+        }
+
+        .whatsapp-fallback p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-fallback a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: #25d366;
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all var(--transition-normal);
+        }
+
+        .whatsapp-fallback a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        @media (max-width: 968px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+            .payment-summary {
+                position: relative;
+                top: 0;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .payment-tabs { flex-direction: column; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="payment-page">
+        <div class="container">
+            <div class="payment-logo">
+                <a href="index.html">
+                    <span class="logo-text">YA</span>
+                    <span class="logo-dot"></span>
+                </a>
+            </div>
+
+            <div class="payment-container">
+                <!-- Order Summary -->
+                <div class="payment-summary">
+                    <h2><i class="fas fa-receipt"></i> Order Summary</h2>
+                    <div class="plan-details">
+                        <div class="plan-name" id="planName">Professional Plan</div>
+                        <div class="plan-price" id="planPrice">
+                            <span class="currency">₦</span><span id="priceAmount">900,000</span>
+                            <span class="period">/project</span>
+                        </div>
+                        <ul class="plan-features-summary" id="planFeatures"></ul>
+                    </div>
+
+                    <div class="security-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Your payment is secure. All transactions are encrypted and protected.</span>
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                <div class="payment-form-wrapper">
+                    <a href="index.html#pricing" class="back-link">
+                        <i class="fas fa-arrow-left"></i> Back to Pricing
+                    </a>
+
+                    <h2>Complete Your Payment</h2>
+                    <p>Choose your preferred payment method</p>
+
+                    <div class="payment-message" id="paymentMessage">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="messageText"></span>
+                    </div>
+
+                    <!-- Payment Method Tabs -->
+                    <div class="payment-tabs">
+                        <button class="payment-tab active" data-tab="bank">
+                            <i class="fas fa-university"></i>
+                            <span>Bank Transfer</span>
+                        </button>
+                        <button class="payment-tab" data-tab="card">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Card Payment</span>
+                        </button>
+                        <button class="payment-tab" data-tab="whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>WhatsApp</span>
+                        </button>
+                    </div>
+
+                    <!-- Bank Transfer Content -->
+                    <div class="payment-content active" id="bankContent">
+                        <div class="bank-details">
+                            <h4><i class="fas fa-university"></i> Bank Account Details</h4>
+                            <div class="bank-detail-row">
+                                <span>Bank Name:</span>
+                                <div style="display:flex;align-items:center;gap:0.5rem;">
+                                    <span id="bankName">YOUR BANK NAME</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('bankName', this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bank-detail-row">
+                                <span>Account Number:</span>
+                                <div style="display:flex;align-items:center;gap:0.5rem;">
+                                    <span id="accountNumber">0123456789</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('accountNumber', this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bank-detail-row">
+                                <span>Account Name:</span>
+                                <div style="display:flex;align-items:center;gap:0.5rem;">
+                                    <span id="accountName">YUSUF ABDULSALAM</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('accountName', this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="bank-detail-row">
+                                <span>Amount to Pay:</span>
+                                <div style="display:flex;align-items:center;gap:0.5rem;">
+                                    <span id="amountToPay" style="color:var(--primary-light);font-weight:800;">₦900,000</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('amountToPay', this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form class="payment-form" id="bankTransferForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="bankFirstName">First Name *</label>
+                                    <input type="text" id="bankFirstName" placeholder="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bankLastName">Last Name *</label>
+                                    <input type="text" id="bankLastName" placeholder="Doe" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bankEmail">Email Address *</label>
+                                <input type="email" id="bankEmail" placeholder="john@example.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bankPhone">Phone Number *</label>
+                                <input type="tel" id="bankPhone" placeholder="08012345678" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bankSenderName">Sender's Account Name *</label>
+                                <input type="text" id="bankSenderName" placeholder="Name on your bank account" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="receiptUpload">Upload Payment Receipt *</label>
+                                <div class="file-upload" id="fileUploadArea">
+                                    <input type="file" id="receiptUpload" accept="image/*,.pdf" required>
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <h4>Click or drag receipt here</h4>
+                                    <p>Supported: JPG, PNG, PDF (max 5MB)</p>
+                                </div>
+                                <div class="file-preview" id="filePreview">
+                                    <i class="fas fa-file-image"></i>
+                                    <div class="file-info">
+                                        <div class="file-name" id="fileName">receipt.jpg</div>
+                                        <div class="file-size" id="fileSize">2.4 MB</div>
+                                    </div>
+                                    <button type="button" class="remove-file" id="removeFile">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bankProjectDetails">Project Details (Optional)</label>
+                                <textarea id="bankProjectDetails" rows="3" placeholder="Tell me briefly about your project..."></textarea>
+                            </div>
+
+                            <button type="submit" class="pay-btn" id="bankSubmitBtn">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Submit Payment Proof</span>
+                            </button>
+                        </form>
+
+                        <div class="whatsapp-fallback">
+                            <p><i class="fas fa-info-circle"></i> Having trouble? Send proof via WhatsApp instead</p>
+                            <a href="https://wa.me/2348079614529" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card Payment Content -->
+                    <div class="payment-content" id="cardContent">
+                        <div class="whatsapp-fallback" style="margin-bottom:1.5rem;">
+                            <p><i class="fas fa-info-circle"></i> Card payment coming soon! For now, please use Bank Transfer or WhatsApp.</p>
+                        </div>
+
+                        <form class="payment-form" id="cardForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cardFirstName">First Name *</label>
+                                    <input type="text" id="cardFirstName" placeholder="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cardLastName">Last Name *</label>
+                                    <input type="text" id="cardLastName" placeholder="Doe" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cardEmail">Email Address *</label>
+                                <input type="email" id="cardEmail" placeholder="john@example.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cardPhone">Phone Number *</label>
+                                <input type="tel" id="cardPhone" placeholder="08012345678" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cardProjectType">Project Type *</label>
+                                <select id="cardProjectType" required>
+                                    <option value="">Select project type...</option>
+                                    <option value="website">Business Website</option>
+                                    <option value="ecommerce">E-Commerce Store</option>
+                                    <option value="webapp">Web Application</option>
+                                    <option value="portfolio">Portfolio Website</option>
+                                    <option value="dashboard">Admin Dashboard</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="pay-btn" id="cardSubmitBtn">
+                                <i class="fab fa-whatsapp"></i>
+                                <span>Continue on WhatsApp</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- WhatsApp Content -->
+                    <div class="payment-content" id="whatsappContent">
+                        <div class="whatsapp-fallback" style="background:rgba(37,211,102,0.1);border-color:rgba(37,211,102,0.3);">
+                            <p style="color:var(--text-primary);font-size:1rem;margin-bottom:1.5rem;">
+                                <i class="fab fa-whatsapp" style="color:#25d366;font-size:1.5rem;"></i><br><br>
+                                Prefer to discuss first? Chat with me directly on WhatsApp and I'll guide you through the payment process.
+                            </p>
+                            <a href="#" id="whatsappLink" target="_blank">
+                                <i class="fab fa-whatsapp"></i> Start WhatsApp Chat
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="payment-footer">
+                        <i class="fas fa-lock"></i> Your information is secure and encrypted.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Plan configurations - ALL IN NAIRA
+        const plans = {
+            starter: {
+                name: 'Starter Plan',
+                price: '₦450,000',
+                priceNumber: 450000,
+                features: [
+                    '1-3 Pages Website',
+                    'Mobile Responsive',
+                    'Basic SEO Setup',
+                    'Contact Form',
+                    '1 Week Delivery'
+                ]
+            },
+            professional: {
+                name: 'Professional Plan',
+                price: '₦900,000',
+                priceNumber: 900000,
+                features: [
+                    '5-10 Pages Website',
+                    'Mobile Responsive',
+                    'Advanced SEO',
+                    'Contact Form + Map',
+                    'Custom Animations',
+                    '2 Weeks Delivery'
+                ]
+            },
+            enterprise: {
+                name: 'Enterprise Plan',
+                price: '₦1,500,000',
+                priceNumber: 1500000,
+                features: [
+                    'Unlimited Pages',
+                    'Mobile Responsive',
+                    'Premium SEO',
+                    'Full-Stack Application',
+                    'Custom Animations',
+                    'Admin Dashboard',
+                    '1 Month Support'
+                ]
+            }
+        };
+
+        // Get plan from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const planId = urlParams.get('plan') || 'professional';
+        const plan = plans[planId] || plans.professional;
+
+        // Populate plan details
+        document.getElementById('planName').textContent = plan.name;
+        document.getElementById('priceAmount').textContent = plan.price.replace('₦', '');
+        document.getElementById('amountToPay').textContent = plan.price;
+
+        const featuresList = document.getElementById('planFeatures');
+        plan.features.forEach(feature => {
+            const li = document.createElement('li');
+            li.innerHTML = `<i class="fas fa-check"></i> ${feature}`;
+            featuresList.appendChild(li);
+        });
+
+        // Update WhatsApp link with plan info
+        const whatsappMessage = `Hi Yusuf, I'm interested in the ${plan.name} (${plan.price}). I'd like to make a payment and discuss my project.`;
+        document.getElementById('whatsappLink').href = `https://wa.me/2348079614529?text=${encodeURIComponent(whatsappMessage)}`;
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.payment-tab');
+        const contents = document.querySelectorAll('.payment-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
+
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                contents.forEach(c => c.classList.remove('active'));
+                document.getElementById(target + 'Content').classList.add('active');
+            });
+        });
+
+        // Copy to clipboard function
+        function copyToClipboard(elementId, btn) {
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // File upload handling
+        const fileInput = document.getElementById('receiptUpload');
+        const filePreview = document.getElementById('filePreview');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const removeFileBtn = document.getElementById('removeFile');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showMessage('File size must be less than 5MB', 'error');
+                    this.value = '';
+                    return;
+                }
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = formatFileSize(file.size);
+                filePreview.classList.add('show');
+                fileUploadArea.style.display = 'none';
+            }
+        });
+
+        removeFileBtn.addEventListener('click', function() {
+            fileInput.value = '';
+            filePreview.classList.remove('show');
+            fileUploadArea.style.display = 'block';
+        });
+
+        // Drag and drop
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        });
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Show message function
+        function showMessage(message, type) {
+            const msgEl = document.getElementById('paymentMessage');
+            const textEl = document.getElementById('messageText');
+            msgEl.className = `payment-message ${type} show`;
+            textEl.textContent = message;
+            setTimeout(() => {
+                msgEl.classList.remove('show');
+            }, 5000);
+        }
+
+        // Bank Transfer Form Submission
+        document.getElementById('bankTransferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById('bankFirstName').value;
+            const lastName = document.getElementById('bankLastName').value;
+            const email = document.getElementById('bankEmail').value;
+            const phone = document.getElementById('bankPhone').value;
+            const senderName = document.getElementById('bankSenderName').value;
+            const file = document.getElementById('receiptUpload').files[0];
+
+            if (!file) {
+                showMessage('Please upload your payment receipt.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('bankSubmitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+            // Read file as base64 for email
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const receiptData = e.target.result;
+
+                // Prepare email content
+                const subject = `Payment Proof - ${plan.name} - ${firstName} ${lastName}`;
+                const body = `
+NEW PAYMENT SUBMISSION
+======================
+
+Plan: ${plan.name}
+Amount: ${plan.price}
+
+CLIENT DETAILS:
+- Name: ${firstName} ${lastName}
+- Email: ${email}
+- Phone: ${phone}
+- Sender's Account Name: ${senderName}
+
+RECEIPT ATTACHED
+
+Please verify the payment and confirm to the client.
+                `;
+
+                // Since we can't send email directly from frontend,
+                // we'll open the user's email client with pre-filled content
+                // and also redirect to WhatsApp as backup
+
+                const mailtoLink = `mailto:abdulsalamy564@gmail.com,kingofpeace431@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+                // Store payment info in localStorage for reference
+                const paymentInfo = {
+                    plan: plan.name,
+                    amount: plan.price,
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    senderName,
+                    date: new Date().toISOString(),
+                    status: 'pending_verification'
+                };
+
+                let payments = JSON.parse(localStorage.getItem('yaPayments') || '[]');
+                payments.push(paymentInfo);
+                localStorage.setItem('yaPayments', JSON.stringify(payments));
+
+                // Show success and redirect
+                showMessage('Payment proof submitted! Opening email client...', 'success');
+
+                setTimeout(() => {
+                    // Try to open email client
+                    window.open(mailtoLink, '_blank');
+
+                    // Also redirect to success page
+                    setTimeout(() => {
+                        window.location.href = `payment-success.html?ref=BANK_${Date.now()}&plan=${planId}&method=bank`;
+                    }, 2000);
+                }, 1500);
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        // Card Form (redirects to WhatsApp)
+        document.getElementById('cardForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById('cardFirstName').value;
+            const lastName = document.getElementById('cardLastName').value;
+            const email = document.getElementById('cardEmail').value;
+            const phone = document.getElementById('cardPhone').value;
+            const projectType = document.getElementById('cardProjectType').value;
+
+            const message = `Hi Yusuf, I'm interested in the ${plan.name} (${plan.price}).\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nProject Type: ${projectType}\n\nI'd like to make a payment. Please send me your payment details.`;
+
+            window.location.href = `https://wa.me/2348079614529?text=${encodeURIComponent(message)}`;
+        });
+    </script>
+</body>
+</html>
