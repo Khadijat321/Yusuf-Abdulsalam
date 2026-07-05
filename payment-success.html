@@ -256,8 +256,15 @@
     <script>
         // Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const ref = urlParams.get('ref') || 'N/A';
+        const ref = urlParams.get('ref') || '';
         const plan = urlParams.get('plan') || 'N/A';
+        const method = urlParams.get('method') || 'bank';
+
+        // Check if this is a bank transfer - redirect to verification page
+        if (method === 'bank' && ref.startsWith('YA_')) {
+            // Redirect to verification page for pending status
+            window.location.href = 'verify.html?ref=' + ref;
+        }
 
         // Plan prices
         const planPrices = {
@@ -267,7 +274,7 @@
         };
 
         // Populate details
-        document.getElementById('refNumber').textContent = ref;
+        document.getElementById('refNumber').textContent = ref || 'N/A';
         document.getElementById('planName').textContent = plan.charAt(0).toUpperCase() + plan.slice(1) + ' Plan';
         document.getElementById('amountPaid').textContent = planPrices[plan] || 'N/A';
         document.getElementById('paymentDate').textContent = new Date().toLocaleDateString('en-US', {
