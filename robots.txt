@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://yourusername.github.io/yusufabdulsalam-portfolio/sitemap.xml
+Sitemap: https://khadijat321.github.io/Yusuf-Abdulsalam/sitemap.xml
